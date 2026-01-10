@@ -1,0 +1,23 @@
+services:
+  pmp-backend:
+    image: node:20-alpine
+    container_name: pmp-backend
+    working_dir: /app/backend
+    volumes:
+      - .:/app
+    ports:
+      - "8000:3000"
+    environment:
+      - DATABASE_URL=postgresql://pmp_admin:pmp_password_2026@172.20.144.12:5432/pmp_master_db
+      - REDIS_HOST=172.20.144.12
+    command: sh -c "npm install && npm run start:dev"
+
+  pmp-frontend:
+    image: node:20-alpine
+    container_name: pmp-frontend
+    working_dir: /app/frontend
+    volumes:
+      - .:/app
+    ports:
+      - "3000:5173"
+    command: sh -c "npm install && npm run dev -- --host"
